@@ -56,7 +56,7 @@ class IncrementalPlanner(Planner):
         object_to_score = {obj: self._guidance.score_object(obj, state)
                            for obj in state.objects if obj not in cur_objects}
         # Initialize threshold.
-        threshold = self._gamma
+        threshold = 1
         for _ in range(self._max_iterations):
             # Find new objects by incrementally lowering threshold.
             unused_objs = sorted(list(state.objects-cur_objects))
