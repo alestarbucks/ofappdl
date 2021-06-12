@@ -1,0 +1,424 @@
+Starting run:
+	Domain: Spanner
+	Train planner: fd-opt-lmcut
+	Test planner: fd-lama-first
+	Guider: gnn-bce-10
+	Doing incremental planning? 1
+	1 seeds, 50 train problems, 30 test problems
+
+
+
+wandb: W&B syncing is set to `offline` in this directory.  Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+Instantiating FD in SATISFICING mode
+Starting seed 0
+Instantiating FD in OPTIMAL mode
+Training search guidance GNNSearchGuidance in domain Manyspanner...
+None
+Collecting training data problem 0
+Collecting training data problem 1
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p1.pddl
+Collecting training data problem 2
+Collecting training data problem 3
+Collecting training data problem 4
+Collecting training data problem 5
+Collecting training data problem 6
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p14.pddl
+Collecting training data problem 7
+Collecting training data problem 8
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p16.pddl
+Collecting training data problem 9
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p17.pddl
+Collecting training data problem 10
+Collecting training data problem 11
+Collecting training data problem 12
+Collecting training data problem 13
+Collecting training data problem 14
+Collecting training data problem 15
+Collecting training data problem 16
+Collecting training data problem 17
+Collecting training data problem 18
+Collecting training data problem 19
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p26.pddl
+Collecting training data problem 20
+Collecting training data problem 21
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p28.pddl
+Collecting training data problem 22
+Collecting training data problem 23
+Collecting training data problem 24
+Collecting training data problem 25
+Collecting training data problem 26
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p32.pddl
+Collecting training data problem 27
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p33.pddl
+Collecting training data problem 28
+Collecting training data problem 29
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p35.pddl
+Collecting training data problem 30
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p36.pddl
+Collecting training data problem 31
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p37.pddl
+Collecting training data problem 32
+Collecting training data problem 33
+Collecting training data problem 34
+Collecting training data problem 35
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p40.pddl
+Collecting training data problem 36
+Collecting training data problem 37
+Collecting training data problem 38
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p43.pddl
+Collecting training data problem 39
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p44.pddl
+Collecting training data problem 40
+Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyspanner/p45.pddl
+Collecting training data problem 41
+Collecting training data problem 42
+Collecting training data problem 43
+Collecting training data problem 44
+Collecting training data problem 45
+Collecting training data problem 46
+Collecting training data problem 47
+Collecting training data problem 48
+Collecting training data problem 49
+Epoch 0/1000
+----------
+running_loss: {'train': 16.787292957305908, 'val': 7.296504974365234}
+Saved model checkpoint /tmp/model0.pt
+Found new best model with validation loss 7.296504974365234 at epoch 0
+Epoch 10/1000
+----------
+running_loss: {'train': 4.803191900253296, 'val': 2.2725255489349365}
+Epoch 20/1000
+----------
+running_loss: {'train': 3.140074610710144, 'val': 1.5460323095321655}
+Epoch 30/1000
+----------
+running_loss: {'train': 2.593954920768738, 'val': 1.2881989479064941}
+Epoch 40/1000
+----------
+running_loss: {'train': 2.2444671392440796, 'val': 1.1206177473068237}
+Epoch 50/1000
+----------
+running_loss: {'train': 1.9903165102005005, 'val': 0.9986651539802551}
+Epoch 60/1000
+----------
+running_loss: {'train': 1.802367389202118, 'val': 0.9087298512458801}
+Epoch 70/1000
+----------
+running_loss: {'train': 1.6635740399360657, 'val': 0.8425754308700562}
+Epoch 80/1000
+----------
+running_loss: {'train': 1.5611897110939026, 'val': 0.7939843535423279}
+Epoch 90/1000
+----------
+running_loss: {'train': 1.4855347871780396, 'val': 0.7582418918609619}
+Epoch 100/1000
+----------
+running_loss: {'train': 1.4293476939201355, 'val': 0.7318229079246521}
+Saved model checkpoint /tmp/model100.pt
+Found new best model with validation loss 0.7318229079246521 at epoch 100
+Epoch 110/1000
+----------
+running_loss: {'train': 1.3870105147361755, 'val': 0.7119675278663635}
+Epoch 120/1000
+----------
+running_loss: {'train': 1.3538426160812378, 'val': 0.6963009238243103}
+Epoch 130/1000
+----------
+running_loss: {'train': 1.326125681400299, 'val': 0.683095395565033}
+Epoch 140/1000
+----------
+running_loss: {'train': 1.2998754382133484, 'val': 0.6700699925422668}
+Epoch 150/1000
+----------
+running_loss: {'train': 1.268380343914032, 'val': 0.6534032821655273}
+Epoch 160/1000
+----------
+running_loss: {'train': 1.221615970134735, 'val': 0.6275063753128052}
+Epoch 170/1000
+----------
+running_loss: {'train': 1.1711839437484741, 'val': 0.5992196202278137}
+Epoch 180/1000
+----------
+running_loss: {'train': 1.141243815422058, 'val': 0.5837625861167908}
+Epoch 190/1000
+----------
+running_loss: {'train': 1.116875171661377, 'val': 0.571837306022644}
+Epoch 200/1000
+----------
+running_loss: {'train': 1.0962730050086975, 'val': 0.5617350935935974}
+Saved model checkpoint /tmp/model200.pt
+Found new best model with validation loss 0.5617350935935974 at epoch 200
+Epoch 210/1000
+----------
+running_loss: {'train': 1.079245388507843, 'val': 0.5534404516220093}
+Epoch 220/1000
+----------
+running_loss: {'train': 1.0644617080688477, 'val': 0.5460320711135864}
+Epoch 230/1000
+----------
+running_loss: {'train': 1.0515384674072266, 'val': 0.5394878387451172}
+Epoch 240/1000
+----------
+running_loss: {'train': 1.0401001274585724, 'val': 0.5337278842926025}
+Epoch 250/1000
+----------
+running_loss: {'train': 1.030030757188797, 'val': 0.5286757349967957}
+Epoch 260/1000
+----------
+running_loss: {'train': 1.021108716726303, 'val': 0.5242168307304382}
+Epoch 270/1000
+----------
+running_loss: {'train': 1.0131753087043762, 'val': 0.5202319622039795}
+Epoch 280/1000
+----------
+running_loss: {'train': 1.0060926675796509, 'val': 0.5166934728622437}
+Epoch 290/1000
+----------
+running_loss: {'train': 0.9997674524784088, 'val': 0.513568639755249}
+Epoch 300/1000
+----------
+running_loss: {'train': 0.9940880537033081, 'val': 0.5107376575469971}
+Saved model checkpoint /tmp/model300.pt
+Found new best model with validation loss 0.5107376575469971 at epoch 300
+Epoch 310/1000
+----------
+running_loss: {'train': 0.988965779542923, 'val': 0.5081626176834106}
+Epoch 320/1000
+----------
+running_loss: {'train': 0.9843339025974274, 'val': 0.5058422088623047}
+Epoch 330/1000
+----------
+running_loss: {'train': 0.9801312983036041, 'val': 0.5037363767623901}
+Epoch 340/1000
+----------
+running_loss: {'train': 0.976309597492218, 'val': 0.5018212795257568}
+Epoch 350/1000
+----------
+running_loss: {'train': 0.9728254675865173, 'val': 0.5000813007354736}
+Epoch 360/1000
+----------
+running_loss: {'train': 0.9696375727653503, 'val': 0.498487651348114}
+Epoch 370/1000
+----------
+running_loss: {'train': 0.9667173326015472, 'val': 0.4970299005508423}
+Epoch 380/1000
+----------
+running_loss: {'train': 0.96403369307518, 'val': 0.49569281935691833}
+Epoch 390/1000
+----------
+running_loss: {'train': 0.9615602493286133, 'val': 0.4944669008255005}
+Epoch 400/1000
+----------
+running_loss: {'train': 0.9592761993408203, 'val': 0.49332964420318604}
+Saved model checkpoint /tmp/model400.pt
+Found new best model with validation loss 0.49332964420318604 at epoch 400
+Epoch 410/1000
+----------
+running_loss: {'train': 0.9571659564971924, 'val': 0.49228253960609436}
+Epoch 420/1000
+----------
+running_loss: {'train': 0.9552055597305298, 'val': 0.49131056666374207}
+Epoch 430/1000
+----------
+running_loss: {'train': 0.9533845484256744, 'val': 0.4904029965400696}
+Epoch 440/1000
+----------
+running_loss: {'train': 0.9516921639442444, 'val': 0.4895632863044739}
+Epoch 450/1000
+----------
+running_loss: {'train': 0.9501040279865265, 'val': 0.48879414796829224}
+Epoch 460/1000
+----------
+running_loss: {'train': 0.9485878646373749, 'val': 0.48797690868377686}
+Epoch 470/1000
+----------
+running_loss: {'train': 0.9472092390060425, 'val': 0.4874371290206909}
+Epoch 480/1000
+----------
+running_loss: {'train': 0.9458681643009186, 'val': 0.48666566610336304}
+Epoch 490/1000
+----------
+running_loss: {'train': 0.9445601999759674, 'val': 0.4859641492366791}
+Epoch 500/1000
+----------
+running_loss: {'train': 0.9433605670928955, 'val': 0.4852825105190277}
+Saved model checkpoint /tmp/model500.pt
+Found new best model with validation loss 0.4852825105190277 at epoch 500
+Epoch 510/1000
+----------
+running_loss: {'train': 0.9422203004360199, 'val': 0.4847254753112793}
+Epoch 520/1000
+----------
+running_loss: {'train': 0.9411788284778595, 'val': 0.4842178225517273}
+Epoch 530/1000
+----------
+running_loss: {'train': 0.9401139914989471, 'val': 0.48363348841667175}
+Epoch 540/1000
+----------
+running_loss: {'train': 0.9391010999679565, 'val': 0.48310500383377075}
+Epoch 550/1000
+----------
+running_loss: {'train': 0.9381126463413239, 'val': 0.482585072517395}
+Epoch 560/1000
+----------
+running_loss: {'train': 0.9370816946029663, 'val': 0.4820169508457184}
+Epoch 570/1000
+----------
+running_loss: {'train': 0.9360475838184357, 'val': 0.48137736320495605}
+Epoch 580/1000
+----------
+running_loss: {'train': 0.9349432587623596, 'val': 0.4807690978050232}
+Epoch 590/1000
+----------
+running_loss: {'train': 0.9336206614971161, 'val': 0.47985708713531494}
+Epoch 600/1000
+----------
+running_loss: {'train': 0.9317663609981537, 'val': 0.4782704710960388}
+Saved model checkpoint /tmp/model600.pt
+Found new best model with validation loss 0.4782704710960388 at epoch 600
+Epoch 610/1000
+----------
+running_loss: {'train': 0.9285666644573212, 'val': 0.47507724165916443}
+Epoch 620/1000
+----------
+running_loss: {'train': 0.9188984632492065, 'val': 0.4641195833683014}
+Epoch 630/1000
+----------
+running_loss: {'train': 0.8966058492660522, 'val': 0.447953999042511}
+Epoch 640/1000
+----------
+running_loss: {'train': 0.8673163652420044, 'val': 0.4017724096775055}
+Epoch 650/1000
+----------
+running_loss: {'train': 0.8335428535938263, 'val': 0.38108375668525696}
+Epoch 660/1000
+----------
+running_loss: {'train': 0.7910685539245605, 'val': 0.348965048789978}
+Epoch 670/1000
+----------
+running_loss: {'train': 0.8061290085315704, 'val': 0.3534284234046936}
+Epoch 680/1000
+----------
+running_loss: {'train': 0.7928462028503418, 'val': 0.41606178879737854}
+Epoch 690/1000
+----------
+running_loss: {'train': 0.7736964225769043, 'val': 0.36620548367500305}
+Epoch 700/1000
+----------
+running_loss: {'train': 0.7590438425540924, 'val': 0.37109360098838806}
+Saved model checkpoint /tmp/model700.pt
+Found new best model with validation loss 0.37109360098838806 at epoch 700
+Epoch 710/1000
+----------
+running_loss: {'train': 0.7720351219177246, 'val': 0.41543877124786377}
+Epoch 720/1000
+----------
+running_loss: {'train': 0.7418919801712036, 'val': 0.3337005078792572}
+Epoch 730/1000
+----------
+running_loss: {'train': 0.7428581118583679, 'val': 0.34643951058387756}
+Epoch 740/1000
+----------
+running_loss: {'train': 0.729079395532608, 'val': 0.3860730230808258}
+Epoch 750/1000
+----------
+running_loss: {'train': 0.776496559381485, 'val': 0.406261682510376}
+Epoch 760/1000
+----------
+running_loss: {'train': 0.7599403560161591, 'val': 0.4741431474685669}
+Epoch 770/1000
+----------
+running_loss: {'train': 0.8119152784347534, 'val': 0.41990387439727783}
+Epoch 780/1000
+----------
+running_loss: {'train': 0.7364484667778015, 'val': 0.36283186078071594}
+Epoch 790/1000
+----------
+running_loss: {'train': 0.7309763729572296, 'val': 0.3824174404144287}
+Epoch 800/1000
+----------
+running_loss: {'train': 0.7206017076969147, 'val': 0.4084526300430298}
+Saved model checkpoint /tmp/model800.pt
+Epoch 810/1000
+----------
+running_loss: {'train': 0.738380491733551, 'val': 0.3977598249912262}
+Epoch 820/1000
+----------
+running_loss: {'train': 0.7193922400474548, 'val': 0.37137672305107117}
+Epoch 830/1000
+----------
+running_loss: {'train': 0.7206197679042816, 'val': 0.3597271740436554}
+Epoch 840/1000
+----------
+running_loss: {'train': 0.7161605358123779, 'val': 0.33046895265579224}
+Epoch 850/1000
+----------
+running_loss: {'train': 0.6996003091335297, 'val': 0.37262120842933655}
+Epoch 860/1000
+----------
+running_loss: {'train': 0.7051255404949188, 'val': 0.37033990025520325}
+Epoch 870/1000
+----------
+running_loss: {'train': 0.7367345094680786, 'val': 0.3704582452774048}
+Epoch 880/1000
+----------
+running_loss: {'train': 0.6906238198280334, 'val': 0.34375959634780884}
+Epoch 890/1000
+----------
+running_loss: {'train': 0.7385940253734589, 'val': 0.3874969780445099}
+Epoch 900/1000
+----------
+running_loss: {'train': 0.7129424810409546, 'val': 0.3636305034160614}
+Saved model checkpoint /tmp/model900.pt
+Found new best model with validation loss 0.3636305034160614 at epoch 900
+Epoch 910/1000
+----------
+running_loss: {'train': 0.6894396841526031, 'val': 0.4174599349498749}
+Epoch 920/1000
+----------
+running_loss: {'train': 0.7427654266357422, 'val': 0.5939945578575134}
+Epoch 930/1000
+----------
+running_loss: {'train': 0.6905182301998138, 'val': 0.35435327887535095}
+Epoch 940/1000
+----------
+running_loss: {'train': 0.6787309646606445, 'val': 0.44384026527404785}
+Epoch 950/1000
+----------
+running_loss: {'train': 0.6596337854862213, 'val': 0.43780744075775146}
+Epoch 960/1000
+----------
+running_loss: {'train': 0.7136692702770233, 'val': 0.4294884502887726}
+Epoch 970/1000
+----------
+running_loss: {'train': 0.6699899137020111, 'val': 0.4871962368488312}
+Epoch 980/1000
+----------
+running_loss: {'train': 0.6931953132152557, 'val': 0.3128655254840851}
+Epoch 990/1000
+----------
+running_loss: {'train': 0.6654070913791656, 'val': 0.472789466381073}
+Epoch 1000/1000
+----------
+running_loss: {'train': 0.7461699545383453, 'val': 0.3366113603115082}
+Saved model checkpoint /tmp/model1000.pt
+Found new best model with validation loss 0.3366113603115082 at epoch 1000
+Training complete in 3m 38s
+Saved model to model/bce10_model_last_seed0_Manyspanner.pt.
+Initializing IncrementalPlanner with base planner FD, guidance GNNSearchGuidance
+Running testing...
+None
+	Testing problem 1 of 30
+[Trying to plan with 54 objects of 60 total, threshold is 0.81...]
+		Planning failed with error: Planning timed out!
+	Testing problem 2 of 30
+[Trying to plan with 61 objects of 66 total, threshold is 0.81...]
+		Planning failed with error: Planning timed out!
+	Testing problem 3 of 30
+[Trying to plan with 78 objects of 83 total, threshold is 0.81...]
+		Planning failed with error: Planning timed out!
+	Testing problem 4 of 30
+[Trying to plan with 54 objects of 64 total, threshold is 0.81...]
+		Planning failed with error: Planning timed out!
+	Testing problem 5 of 30
+[Trying to plan with 64 objects of 64 total, threshold is 0.81...]
