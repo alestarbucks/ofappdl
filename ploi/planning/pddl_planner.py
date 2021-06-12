@@ -15,6 +15,7 @@ class PDDLPlanner(Planner):
     """An abstract PDDL planner for PDDLGym.
     """
     def __call__(self, domain, state, timeout):
+        print("Hola soy el planner, me han llamado")
         with open("call.log", "w+") as f:
             act_preds = [domain.predicates[a] for a in list(domain.actions)]
             act_space = LiteralSpace(

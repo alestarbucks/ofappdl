@@ -1,11 +1,11 @@
 #!/bin/bash
 
 pip3 install -e ../pddlgym
-DOMAIN_NAME="Spanner"
+# DOMAIN_NAME="Spanner"
 # DOMAIN_NAME="Parking"
 # DOMAIN_NAME="Barman"
 # DOMAIN_NAME="Depot"
-# DOMAIN_NAME="Blocks"
+DOMAIN_NAME="Blocks"
 # DOMAIN_NAME="Miconic"
 # DOMAIN_NAME="Gripper"
 # DOMAIN_NAME="Ferry"

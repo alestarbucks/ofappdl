@@ -25,6 +25,7 @@ class GNNSearchGuidance(BaseSearchGuidance):
                  load_dataset_from_file, dataset_file_prefix,
                  save_model_prefix, is_strips_domain):
         super().__init__()
+        print(training_planner)
         self._planner = training_planner
         self._num_train_problems = num_train_problems
         self._num_epochs = num_epochs
@@ -53,8 +54,14 @@ class GNNSearchGuidance(BaseSearchGuidance):
             self.__class__.__name__, train_env_name))
         # Collect raw training data. Inputs are States, outputs are objects.
         training_data = self._collect_training_data(train_env_name)
+        with open("training_data.txt", "w+") as f:
+            f.write(str(training_data))
         # Convert training data to graphs
         graphs_input, graphs_target = self._create_graph_dataset(training_data)
+        with open("graphs_input.txt", "w+") as f:
+            f.write(str(graphs_input))
+        with open("graphs_target.txt", "w+") as f:
+            f.write(str(graphs_target))
         # Use 10% for validation
         num_validation = max(1, int(len(graphs_input)*0.1))
         train_graphs_input = graphs_input[num_validation:]
@@ -111,7 +118,7 @@ class GNNSearchGuidance(BaseSearchGuidance):
         return self._last_object_scores[obj]
 
     def _collect_training_data(self, train_env_name):
-        """Returns X, Y where X are States and Y are sets of objects
+        """Returns X, Y where X are States and Y are sets of objects in the found plan
         """
         outfile = self._dataset_file_prefix + "_{}.pkl".format(train_env_name)
         if not self._load_dataset_from_file or not os.path.exists(outfile):
@@ -125,7 +132,6 @@ class GNNSearchGuidance(BaseSearchGuidance):
                 env.fix_problem_index(idx)
                 state, _ = env.reset()
                 try:
-                    # print(type(self._planner))
                     plan = self._planner(env.domain, state, timeout=60)
                 except (PlanningTimeout, PlanningFailure):
                     print("Warning: planning failed, skipping: {}".format(
@@ -283,6 +289,7 @@ class GNNSearchGuidance(BaseSearchGuidance):
 
         for state in training_data[0]:
             types = {o.var_type for o in state.objects}
+            # Only add new types
             self._unary_types.update(types)
             for lit in set(state.literals) | set(state.goal.literals):
                 arity = lit.predicate.arity
@@ -314,7 +321,6 @@ class GNNSearchGuidance(BaseSearchGuidance):
         for unary_predicate in self._unary_predicates:
             self._node_feature_to_index[G(unary_predicate)] = index
             index += 1
-
         # Initialize edge features
         self._edge_feature_to_index = {}
         index = 0
