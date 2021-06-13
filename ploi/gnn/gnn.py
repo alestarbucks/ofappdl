@@ -96,14 +96,17 @@ class GraphModel(nn.Module):
         if 'node_encoder_layers' in kwargs.keys():
             self.node_encoder = MLP(kwargs['node_encoder_layers'], node_dim)
             node_dim = kwargs['node_encoder_layers'][-1]
+            print("Node model in graphmodel:\n{}".format(str(self.node_encoder)))
             #self.add_module('node_encoder',self.node_encoder)
             self.params.append(self.node_encoder.parameters())
         if 'edge_encoder_layers' in kwargs.keys():
             self.edge_encoder = MLP(kwargs['edge_encoder_layers'], edge_dim)
             edge_dim = kwargs['edge_encoder_layers'][-1]
+            print("Edge model in graphmodel:\n{}".format(str(self.edge_encoder)))
             #self.add_module('edge_encoder',self.edge_encoder)
             self.params.append(self.edge_encoder.parameters())
         if 'global_encoder_layers' in kwargs.keys():
+            print("Globals in graphmodel??")
             self.global_encoder = MLP(kwargs['global_encoder_layers'], global_dim)
             global_dim = kwargs['global_encoder_layers'][-1]
             #self.add_module('global_encoder',self.global_encoder)
@@ -112,18 +115,23 @@ class GraphModel(nn.Module):
         if 'node_model_layers' in kwargs.keys():
             input_dim = 2*node_dim + kwargs['edge_model_layers'][-1] + 2*global_dim
             self.node_model = MLP(kwargs['node_model_layers'], input_dim)
+            print("node model:\n{}".format(str(self.node_model)))
             #self.add_module('node_model',self.node_model)
             self.params.append(self.node_model.parameters())
         if 'edge_model_layers' in kwargs.keys():
             input_dim = 2*node_dim*2 + 2*edge_dim + 2*global_dim
             self.edge_model = MLP(kwargs['edge_model_layers'], input_dim)
+            print("edge model:\n{}".format(str(self.edge_model)))
             #self.add_module('edge_model',self.edge_model)
             self.params.append(self.edge_model.parameters())
         if 'global_model_layers' in kwargs.keys():
+            print("global model????")
             input_dim = kwargs['node_model_layers'][-1] + kwargs['edge_model_layers'][-1] + 2*global_dim
             self.global_model = MLP(kwargs['global_model_layers'], input_dim)
             #self.add_module('global_model',self.global_model)
             self.params.append(self.global_model.parameters())
+
+        print("params (???)\n{}".format(self.params))
 
     def edges(self, graph):
         b, g = marshalling_func(graph)
@@ -171,10 +179,13 @@ class EncodeProcessDecode(GraphModel):
         if 'node_decoder_layers' in kwargs.keys():
             self.node_decoder = MLP(kwargs['node_decoder_layers'], kwargs['node_model_layers'][-1],
                 dropout=dropout)
+            print("Node model in encodeprocessdecode:\n{}".format(str(self.node_decoder)))
         if 'edge_decoder_layers' in kwargs.keys():
             self.edge_decoder = MLP(kwargs['edge_decoder_layers'], kwargs['edge_model_layers'][-1],
                 dropout=dropout)
+            print("Edge model in encodeprocessdecode:\n{}".format(str(self.edge_decoder)))
         if 'global_decoder_layers' in kwargs.keys():
+            print("Globals in encodeprocessdecode???")
             self.global_decoder = MLP(kwargs['global_decoder_layers'], kwargs['global_model_layers'][-1],
                 dropout=dropout)
         self.num_steps = num_steps
