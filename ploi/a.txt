@@ -1,5 +1,5 @@
 
-(define (problem myproblem) (:domain parking)
+(define (problem myproblem) (:domain manyparking)
   (:objects
         car_00 - car
 	car_01 - car

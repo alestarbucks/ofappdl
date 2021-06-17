@@ -325,7 +325,6 @@ class PDDLDomain:
         # Dict from supertype -> immediate subtypes.
         self.type_hierarchy = type_hierarchy
         # Dict from predicate name -> structs.Predicate object.
-        print(predicates)
         self.predicates = predicates
         # Dict from operator name -> Operator object (class defined above).
         self.operators = operators

@@ -18,12 +18,15 @@ def marshalling_func(graph):
     :graph = the graph to be rearranged into interaction terms
     """
 
+    # Flat tensors of FEATURE VECTORS of senders and receivers
     receivers = torch.index_select(graph['nodes'], 0, graph['receivers'].view(-1))
     senders = torch.index_select(graph['nodes'], 0, graph['senders'].view(-1))
     if graph['globals'] is not None:
         global_idxs = np.repeat(np.arange(0, len(graph['globals'])), graph['n_edge'][:,0].cpu())
         global_tf = graph['globals'][global_idxs]
         return torch.cat((receivers, senders, graph['edges'], global_tf), dim=1), global_idxs
+    
+    # Merge rows of receivers, senders, and edges feature vectors
     return torch.cat((receivers, senders, graph['edges']), dim=1), []
 
 def aggregation_func(graph):
@@ -32,6 +35,7 @@ def aggregation_func(graph):
     with the object's attributes and externel effects to produce an input for the object model.
     :param graph: a graph to apply aggregation to
     """
+    
     rec_m = prepare_receiver_matrix(graph)
     aggregated_effects = torch.mm(graph['edges'].t(), rec_m)
     if graph['globals']is not None:
@@ -44,6 +48,7 @@ def prepare_receiver_matrix(graph):
     num_nodes = graph['nodes'].size()[0]
     num_edges = graph['edges'].size()[0]
 
+    # Similar to python's "range(0, num_nodes)" but returns a longtensor
     columns = torch.arange(0, num_nodes).long()
     if graph['receivers'].is_cuda:
         columns = columns.cuda()
@@ -92,46 +97,48 @@ class GraphModel(nn.Module):
         edge_dim = dims[1]
         global_dim = dims[2]
         self.params = []
+        # print("args:\n{}".format(str(args)))
+        # print("kwargs:\n{}".format(str(kwargs)))
 
         if 'node_encoder_layers' in kwargs.keys():
             self.node_encoder = MLP(kwargs['node_encoder_layers'], node_dim)
             node_dim = kwargs['node_encoder_layers'][-1]
-            print("Node model in graphmodel:\n{}".format(str(self.node_encoder)))
+            # print("Node model in graphmodel:\n{}".format(str(self.node_encoder)))
             #self.add_module('node_encoder',self.node_encoder)
             self.params.append(self.node_encoder.parameters())
         if 'edge_encoder_layers' in kwargs.keys():
             self.edge_encoder = MLP(kwargs['edge_encoder_layers'], edge_dim)
             edge_dim = kwargs['edge_encoder_layers'][-1]
-            print("Edge model in graphmodel:\n{}".format(str(self.edge_encoder)))
+            # print("Edge model in graphmodel:\n{}".format(str(self.edge_encoder)))
             #self.add_module('edge_encoder',self.edge_encoder)
             self.params.append(self.edge_encoder.parameters())
         if 'global_encoder_layers' in kwargs.keys():
-            print("Globals in graphmodel??")
+            # print("Globals in graphmodel??")
             self.global_encoder = MLP(kwargs['global_encoder_layers'], global_dim)
             global_dim = kwargs['global_encoder_layers'][-1]
             #self.add_module('global_encoder',self.global_encoder)
             self.params.append(self.global_encoder.parameters())
 
         if 'node_model_layers' in kwargs.keys():
-            input_dim = 2*node_dim + kwargs['edge_model_layers'][-1] + 2*global_dim
+            input_dim = 2 * node_dim + kwargs['edge_model_layers'][-1] + 2 * global_dim
             self.node_model = MLP(kwargs['node_model_layers'], input_dim)
-            print("node model:\n{}".format(str(self.node_model)))
+            # print("node model:\n{}".format(str(self.node_model)))
             #self.add_module('node_model',self.node_model)
             self.params.append(self.node_model.parameters())
         if 'edge_model_layers' in kwargs.keys():
-            input_dim = 2*node_dim*2 + 2*edge_dim + 2*global_dim
+            input_dim = 2 * node_dim * 2 + 2 * edge_dim + 2 * global_dim
             self.edge_model = MLP(kwargs['edge_model_layers'], input_dim)
-            print("edge model:\n{}".format(str(self.edge_model)))
+            # print("edge model:\n{}".format(str(self.edge_model)))
             #self.add_module('edge_model',self.edge_model)
             self.params.append(self.edge_model.parameters())
         if 'global_model_layers' in kwargs.keys():
-            print("global model????")
+            # print("global model????")
             input_dim = kwargs['node_model_layers'][-1] + kwargs['edge_model_layers'][-1] + 2*global_dim
             self.global_model = MLP(kwargs['global_model_layers'], input_dim)
             #self.add_module('global_model',self.global_model)
             self.params.append(self.global_model.parameters())
 
-        print("params (???)\n{}".format(self.params))
+        # print("params (???)\n{}".format(self.params))
 
     def edges(self, graph):
         b, g = marshalling_func(graph)
@@ -179,13 +186,13 @@ class EncodeProcessDecode(GraphModel):
         if 'node_decoder_layers' in kwargs.keys():
             self.node_decoder = MLP(kwargs['node_decoder_layers'], kwargs['node_model_layers'][-1],
                 dropout=dropout)
-            print("Node model in encodeprocessdecode:\n{}".format(str(self.node_decoder)))
+            # print("Node model in encodeprocessdecode:\n{}".format(str(self.node_decoder)))
         if 'edge_decoder_layers' in kwargs.keys():
             self.edge_decoder = MLP(kwargs['edge_decoder_layers'], kwargs['edge_model_layers'][-1],
                 dropout=dropout)
-            print("Edge model in encodeprocessdecode:\n{}".format(str(self.edge_decoder)))
+            # print("Edge model in encodeprocessdecode:\n{}".format(str(self.edge_decoder)))
         if 'global_decoder_layers' in kwargs.keys():
-            print("Globals in encodeprocessdecode???")
+            # print("Globals in encodeprocessdecode???")
             self.global_decoder = MLP(kwargs['global_decoder_layers'], kwargs['global_model_layers'][-1],
                 dropout=dropout)
         self.num_steps = num_steps
@@ -193,6 +200,10 @@ class EncodeProcessDecode(GraphModel):
         self.dropout = dropout
 
     def forward(self, graph):
+        # f = open("forward.txt", "w+")
+        # f.write("Entrada:\n{}".format(graph))
+        # f.write(str(graph["nodes"].size()))
+        # f.write(str(graph["edges"].size()))
         if graph['nodes'].is_cuda:
             assert self.use_gpu
             graph['nodes'] = graph['nodes'].cuda()
@@ -208,12 +219,18 @@ class EncodeProcessDecode(GraphModel):
         if hasattr(self, 'global_encoder'):
             graph['globals'] = self.global_encoder(graph['globals'])
 
+        # f.write("\nDespués de encodear:\n{}".format(graph))
         output_graph = []
         latent0 = graph
         for steps in range(self.num_steps):
+            #print(graph['senders'].size())
             graph = concat([latent0, graph], dim=1, use_gpu=self.use_gpu)
+            #print(graph['senders'].size())
             graph, eg = self.edges(graph)
+            #print(graph['senders'].size())
             graph, ng = self.nodes(graph)
+            #print(graph['senders'].size())
+            #print("------")
             if hasattr(self, 'global_encoder'):
                 graph = self.globals(graph, eg, ng)
 
@@ -231,6 +248,7 @@ def MLP(layers, input_dim, dropout=0.):
     """Create MLP
     """
     mlp_layers = [nn.Linear(input_dim, layers[0])]
+    # print("Me han pedido {} layers y {} input dim".format(len(layers), input_dim))
 
     for layer_num in range(0, len(layers)-1):
         mlp_layers.append(nn.ReLU())

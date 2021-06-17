@@ -4,6 +4,7 @@ it finds a plan.
 
 import time
 import tempfile
+import wandb
 import numpy as np
 from pddlgym.structs import State
 from pddlgym.spaces import LiteralSpace
@@ -96,5 +97,6 @@ class IncrementalPlanner(Planner):
                     # We already tried with all objects, give up.
                     break
                 continue
+            
             return plan
         raise PlanningFailure("Plan not found! Reached max_iterations.")

@@ -1,4 +1,4 @@
-(define (domain parking)
+(define (domain manyparking)
  (:requirements :strips :typing)
  (:types car curb)
  (:predicates 
@@ -8,7 +8,7 @@
     (car-clear ?car - car) 
     (curb-clear ?curb - curb)
  )
-    ; mover coche sin nada encima a pila vacia
+
 	(:action move-curb-to-curb
 		:parameters (?car - car ?curbsrc ?curbdest - curb)
 		:precondition (and 
@@ -24,7 +24,7 @@
 		)
 	)
 
-    ; apilar sobre caja
+
 	(:action move-curb-to-car
 		:parameters (?car - car ?curbsrc - curb ?cardest - car)
 		:precondition (and 

@@ -146,7 +146,9 @@ for env_name, kwargs in [
         ("manyparking", {'operators_as_actions' : True,
                                   'dynamic_action_space' : True}),
         ("manyspanner", {'operators_as_actions' : True,
-                                  'dynamic_action_space' : True})                         
+                                  'dynamic_action_space' : True}),
+        ("manymultitasking", {'operators_as_actions' : True,
+                                  'dynamic_action_space' : True})                           
 ]:
     other_args = {
         "raise_error_on_invalid_action": False,

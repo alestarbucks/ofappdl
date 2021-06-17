@@ -14,6 +14,9 @@ def _test_planner(planner, domain_name, num_problems, timeout):
     print("Running testing...")
     env = pddlgym.make("PDDLEnv{}-v0".format(domain_name))
     num_problems = min(num_problems, len(env.problems))
+    solved = 0
+    wandb.log({"test_time": 0, "accumulated_solved": solved})
+    initial = time.time()
     for problem_idx in range(num_problems):
         print("\tTesting problem {} of {}".format(problem_idx+1, num_problems),
               flush=True)
@@ -32,6 +35,10 @@ def _test_planner(planner, domain_name, num_problems, timeout):
                 plan=plan):
             print("\t\tPlanning returned an invalid plan")
             continue
+        solved += 1
+        wandb.log({"test_p{}".format(problem_idx): time.time()-start})
+        wandb.log({"test_time": time.time() - initial, "accumulated_solved": solved})
+        wandb.log({"p{}_plan_length".format(problem_idx): len(plan)})
         print("\t\tSuccess, got plan of length {} in {:.5f} seconds".format(
             len(plan), time.time()-start), flush=True)
 
@@ -45,7 +52,7 @@ def _create_planner(planner_name):
 
 
 def _create_guider(guider_name, planner_name, num_train_problems,
-                   is_strips_domain, num_epochs, seed):
+                   is_strips_domain, num_epochs, seed, greedy_search=0):
     model_dir = os.path.join(os.path.dirname(__file__), "model")
     if not os.path.exists(model_dir):
         os.makedirs(model_dir, exist_ok=True)
@@ -61,17 +68,18 @@ def _create_guider(guider_name, planner_name, num_train_problems,
             bce_pos_weight=10,
             load_from_file=True,
             load_dataset_from_file=True,
-            dataset_file_prefix=os.path.join(model_dir, "training_data"),
+            dataset_file_prefix=os.path.join(model_dir, "training_data_{}".format(greedy_search)),
             save_model_prefix=os.path.join(
-                model_dir, "bce10_model_last_seed{}".format(seed)),
+                model_dir, "bce10_model_last_seed{}_{}".format(seed,greedy_search)),
             is_strips_domain=is_strips_domain,
+            greedy_search=greedy_search,
         )
     raise Exception("Unrecognized guider name '{}'.".format(guider_name))
 
 
 def _run(domain_name, train_planner_name, test_planner_name,
          guider_name, num_seeds, num_train_problems, num_test_problems,
-         do_incremental_planning, timeout, num_epochs):
+         do_incremental_planning, greedy_search, timeout, num_epochs):
     print("Starting run:")
     print("\tDomain: {}".format(domain_name))
     print("\tTrain planner: {}".format(train_planner_name))
@@ -80,18 +88,8 @@ def _run(domain_name, train_planner_name, test_planner_name,
     print("\tDoing incremental planning? {}".format(do_incremental_planning))
     print("\t{} seeds, {} train problems, {} test problems".format(
         num_seeds, num_train_problems, num_test_problems), flush=True)
+    print("\tDoing incremental greedy search of minimal set? {}".format(greedy_search))
     print("\n\n")
-
-    config = {
-        'domain': domain_name,
-        'train planner': train_planner_name,
-        'test planner': test_planner_name,
-        'guider': guider_name,
-        'incremental': do_incremental_planning == 1,
-        'train_problems': num_train_problems,
-        'test_problems': num_test_problems
-    }
-    wandb.init(project='ploi-alejandro', entity='alestarbucks', config=config)
 
     if not do_incremental_planning:
         assert guider_name == "no-guidance", "Cannot guide non-incremental!"
@@ -107,18 +105,43 @@ def _run(domain_name, train_planner_name, test_planner_name,
                          "Depot": "Manydepot",
                          "Barman": "Manybarman",
                          "Parking": "Manyparking",
-                         "Spanner": "Manyspanner"}
+                         "Spanner": "Manyspanner",
+                         "Multitasking": "Manymultitasking"}
     assert domain_name in pddlgym_env_names
     # change domain name to match the one in pddlgym
     domain_name = pddlgym_env_names[domain_name]
     is_strips_domain = True
 
     for seed in range(num_seeds):
+
+        config = {
+            'domain': domain_name,
+            'train planner': train_planner_name,
+            'test planner': test_planner_name,
+            'guider': guider_name,
+            'incremental': do_incremental_planning == 1,
+            'greedy_incr': greedy_search == 1,
+            'seed': seed,
+            'train_problems': num_train_problems,
+            'test_problems': num_test_problems
+        }
+
+        run = wandb.init(project='ploi-alejandro', entity='alestarbucks', config=config, reinit=True)
+
+        if seed == 0: seed_set = wandb.run.name
+
+        tags = [
+            # "dummy",
+            seed_set
+        ]
+
+        wandb.tags = tags
+
         print("Starting seed {}".format(seed), flush=True)
 
         guider = _create_guider(guider_name, train_planner_name,
                                 num_train_problems, is_strips_domain,
-                                num_epochs, seed)
+                                num_epochs, seed, greedy_search)
         guider.seed(seed)
         guider.train(domain_name)
 
@@ -129,8 +152,12 @@ def _run(domain_name, train_planner_name, test_planner_name,
         else:
             planner_to_test = planner
 
+        initial_time = time.time()
         _test_planner(planner_to_test, domain_name+"Test",
                       num_problems=num_test_problems, timeout=timeout)
+        wandb.log({"test_time": (time.time() - initial_time)})
+        run.finish()
+        
     print("\n\nFinished run\n\n\n\n")
 
 
@@ -144,6 +171,7 @@ if __name__ == "__main__":
     parser.add_argument("--num_train_problems", type=int, default=0)
     parser.add_argument("--num_test_problems", required=True, type=int)
     parser.add_argument("--do_incremental_planning", required=True, type=int)
+    parser.add_argument("--greedy_search", type=int, default=0)
     parser.add_argument("--timeout", required=True, type=float)
     parser.add_argument("--num_epochs", type=int, default=1001)
     args = parser.parse_args()
@@ -151,4 +179,4 @@ if __name__ == "__main__":
     _run(args.domain_name, args.train_planner_name,
          args.test_planner_name, args.guider_name, args.num_seeds,
          args.num_train_problems, args.num_test_problems,
-         args.do_incremental_planning, args.timeout, args.num_epochs)
+         args.do_incremental_planning, args.greedy_search, args.timeout, args.num_epochs)

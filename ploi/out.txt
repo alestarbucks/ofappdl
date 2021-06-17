@@ -1,50 +1,496 @@
 Starting run:
 	Domain: Blocks
-	Train planner: fd-lama-first
+	Train planner: fd-opt-lmcut
 	Test planner: fd-lama-first
 	Guider: gnn-bce-10
 	Doing incremental planning? 1
-	1 seeds, 50 train problems, 30 test problems
+	1 seeds, 30 train problems, 10 test problems
 wandb: Currently logged in as: alestarbucks (use `wandb login --relogin` to force relogin)
+	Doing incremental greedy search of minimal set? 0
 
 
 
+Instantiating FD in SATISFICING mode
 wandb: wandb version 0.10.32 is available!  To upgrade, please run:
 wandb:  $ pip install wandb --upgrade
 wandb: Tracking run with wandb version 0.10.31
-wandb: Syncing run fallen-field-154
+wandb: Syncing run trim-firebrand-312
 wandb:  View project at https://wandb.ai/alestarbucks/ploi-alejandro
-wandb:  View run at https://wandb.ai/alestarbucks/ploi-alejandro/runs/14zk0lml
-wandb: Run data is saved locally in /home/ales/tfg/ploi/wandb/run-20210612_213137-14zk0lml
+wandb:  View run at https://wandb.ai/alestarbucks/ploi-alejandro/runs/1hu7v9tn
+wandb: Run data is saved locally in /home/ales/tfg/ploi/wandb/run-20210618_000004-1hu7v9tn
 wandb: Run `wandb offline` to turn off syncing.
 
-Instantiating FD in SATISFICING mode
 Starting seed 0
-Instantiating FD in SATISFICING mode
-<planning.fd.FD object at 0x7f358f7b97f0>
+Instantiating FD in OPTIMAL mode
 Training search guidance GNNSearchGuidance in domain Manyblockssmallpiles...
-None
 Collecting training data problem 0
-Hola soy el planner, me han llamado
 Collecting training data problem 1
-Hola soy el planner, me han llamado
 Collecting training data problem 2
-Hola soy el planner, me han llamado
 Collecting training data problem 3
-Hola soy el planner, me han llamado
 Collecting training data problem 4
-Hola soy el planner, me han llamado
 Collecting training data problem 5
-Hola soy el planner, me han llamado
 Collecting training data problem 6
-Hola soy el planner, me han llamado
 Collecting training data problem 7
-Hola soy el planner, me han llamado
 Warning: planning failed, skipping: /home/ales/tfg/pddlgym/pddlgym/pddl/manyblockssmallpiles/problem15.pddl
 Collecting training data problem 8
-Hola soy el planner, me han llamado
 Collecting training data problem 9
-Hola soy el planner, me han llamado
 Collecting training data problem 10
-Hola soy el planner, me han llamado
 Collecting training data problem 11
+Collecting training data problem 12
+Collecting training data problem 13
+Collecting training data problem 14
+Collecting training data problem 15
+Collecting training data problem 16
+Collecting training data problem 17
+Collecting training data problem 18
+Collecting training data problem 19
+Collecting training data problem 20
+Collecting training data problem 21
+Collecting training data problem 22
+Collecting training data problem 23
+Collecting training data problem 24
+Collecting training data problem 25
+Collecting training data problem 26
+Collecting training data problem 27
+Collecting training data problem 28
+Collecting training data problem 29
+Epoch 0/1000
+----------
+running_loss: {'train': 4.346107840538025, 'val': 1.919533371925354}
+Saved model checkpoint /tmp/model0.pt
+Found new best model with validation loss 1.919533371925354 at epoch 0
+Epoch 10/1000
+----------
+running_loss: {'train': 2.225082755088806, 'val': 0.9637050628662109}
+Epoch 20/1000
+----------
+running_loss: {'train': 1.7255198955535889, 'val': 0.7148199677467346}
+Epoch 30/1000
+----------
+running_loss: {'train': 1.543188989162445, 'val': 0.6335192918777466}
+Epoch 40/1000
+----------
+running_loss: {'train': 1.444810390472412, 'val': 0.5840421319007874}
+Epoch 50/1000
+----------
+running_loss: {'train': 1.3783134818077087, 'val': 0.5503095388412476}
+Epoch 60/1000
+----------
+running_loss: {'train': 1.331197440624237, 'val': 0.527153491973877}
+Epoch 70/1000
+----------
+running_loss: {'train': 1.2961195707321167, 'val': 0.5123143196105957}
+Epoch 80/1000
+----------
+running_loss: {'train': 1.2710569500923157, 'val': 0.4979982376098633}
+Epoch 90/1000
+----------
+running_loss: {'train': 1.2510928511619568, 'val': 0.485696941614151}
+Epoch 100/1000
+----------
+running_loss: {'train': 1.2353484630584717, 'val': 0.4791097640991211}
+Saved model checkpoint /tmp/model100.pt
+Found new best model with validation loss 0.4791097640991211 at epoch 100
+Epoch 110/1000
+----------
+running_loss: {'train': 1.223106563091278, 'val': 0.4728672504425049}
+Epoch 120/1000
+----------
+running_loss: {'train': 1.2132217288017273, 'val': 0.4687343239784241}
+Epoch 130/1000
+----------
+running_loss: {'train': 1.204717755317688, 'val': 0.46412143111228943}
+Epoch 140/1000
+----------
+running_loss: {'train': 1.1978265643119812, 'val': 0.4605501592159271}
+Epoch 150/1000
+----------
+running_loss: {'train': 1.191835343837738, 'val': 0.45747295022010803}
+Epoch 160/1000
+----------
+running_loss: {'train': 1.1868776679039001, 'val': 0.4549809992313385}
+Epoch 170/1000
+----------
+running_loss: {'train': 1.182490050792694, 'val': 0.4522448182106018}
+Epoch 180/1000
+----------
+running_loss: {'train': 1.1787582635879517, 'val': 0.45165571570396423}
+Epoch 190/1000
+----------
+running_loss: {'train': 1.175348162651062, 'val': 0.44922709465026855}
+Epoch 200/1000
+----------
+running_loss: {'train': 1.1724741458892822, 'val': 0.4480762481689453}
+Saved model checkpoint /tmp/model200.pt
+Found new best model with validation loss 0.4480762481689453 at epoch 200
+Epoch 210/1000
+----------
+running_loss: {'train': 1.1698116660118103, 'val': 0.4466777443885803}
+Epoch 220/1000
+----------
+running_loss: {'train': 1.1676989793777466, 'val': 0.44571834802627563}
+Epoch 230/1000
+----------
+running_loss: {'train': 1.1657359600067139, 'val': 0.4447440207004547}
+Epoch 240/1000
+----------
+running_loss: {'train': 1.1637816429138184, 'val': 0.4436013102531433}
+Epoch 250/1000
+----------
+running_loss: {'train': 1.1621422171592712, 'val': 0.44289493560791016}
+Epoch 260/1000
+----------
+running_loss: {'train': 1.1615187525749207, 'val': 0.4417407512664795}
+Epoch 270/1000
+----------
+running_loss: {'train': 1.159452497959137, 'val': 0.4415881633758545}
+Epoch 280/1000
+----------
+running_loss: {'train': 1.1580992937088013, 'val': 0.4408819079399109}
+Epoch 290/1000
+----------
+running_loss: {'train': 1.157017469406128, 'val': 0.4404509663581848}
+Epoch 300/1000
+----------
+running_loss: {'train': 1.155908465385437, 'val': 0.4398253858089447}
+Saved model checkpoint /tmp/model300.pt
+Found new best model with validation loss 0.4398253858089447 at epoch 300
+Epoch 310/1000
+----------
+running_loss: {'train': 1.1548624634742737, 'val': 0.4390348792076111}
+Epoch 320/1000
+----------
+running_loss: {'train': 1.1540104150772095, 'val': 0.4388483166694641}
+Epoch 330/1000
+----------
+running_loss: {'train': 1.153239369392395, 'val': 0.43841201066970825}
+Epoch 340/1000
+----------
+running_loss: {'train': 1.1524476408958435, 'val': 0.4379855990409851}
+Epoch 350/1000
+----------
+running_loss: {'train': 1.1517143249511719, 'val': 0.4378136694431305}
+Epoch 360/1000
+----------
+running_loss: {'train': 1.1510602235794067, 'val': 0.43743863701820374}
+Epoch 370/1000
+----------
+running_loss: {'train': 1.1504076719284058, 'val': 0.4370853006839752}
+Epoch 380/1000
+----------
+running_loss: {'train': 1.1498066186904907, 'val': 0.4367935061454773}
+Epoch 390/1000
+----------
+running_loss: {'train': 1.1492501497268677, 'val': 0.43673238158226013}
+Epoch 400/1000
+----------
+running_loss: {'train': 1.148774266242981, 'val': 0.4363988935947418}
+Saved model checkpoint /tmp/model400.pt
+Found new best model with validation loss 0.4363988935947418 at epoch 400
+Epoch 410/1000
+----------
+running_loss: {'train': 1.1482962369918823, 'val': 0.43623486161231995}
+Epoch 420/1000
+----------
+running_loss: {'train': 1.1493923664093018, 'val': 0.4362308382987976}
+Epoch 430/1000
+----------
+running_loss: {'train': 1.1481143236160278, 'val': 0.4354974329471588}
+Epoch 440/1000
+----------
+running_loss: {'train': 1.1473506689071655, 'val': 0.4354488253593445}
+Epoch 450/1000
+----------
+running_loss: {'train': 1.1469017267227173, 'val': 0.43537837266921997}
+Epoch 460/1000
+----------
+running_loss: {'train': 1.1465168595314026, 'val': 0.435211181640625}
+Epoch 470/1000
+----------
+running_loss: {'train': 1.1461766958236694, 'val': 0.4350678324699402}
+Epoch 480/1000
+----------
+running_loss: {'train': 1.1458291411399841, 'val': 0.4348783493041992}
+Epoch 490/1000
+----------
+running_loss: {'train': 1.1455239653587341, 'val': 0.43485674262046814}
+Epoch 500/1000
+----------
+running_loss: {'train': 1.1452027559280396, 'val': 0.4345431923866272}
+Saved model checkpoint /tmp/model500.pt
+Found new best model with validation loss 0.4345431923866272 at epoch 500
+Epoch 510/1000
+----------
+running_loss: {'train': 1.144927442073822, 'val': 0.4345073103904724}
+Epoch 520/1000
+----------
+running_loss: {'train': 1.1446549892425537, 'val': 0.4343722462654114}
+Epoch 530/1000
+----------
+running_loss: {'train': 1.1443946361541748, 'val': 0.4342309832572937}
+Epoch 540/1000
+----------
+running_loss: {'train': 1.1441492438316345, 'val': 0.43414539098739624}
+Epoch 550/1000
+----------
+running_loss: {'train': 1.1439216136932373, 'val': 0.43380457162857056}
+Epoch 560/1000
+----------
+running_loss: {'train': 1.1436917185783386, 'val': 0.4337741732597351}
+Epoch 570/1000
+----------
+running_loss: {'train': 1.143516480922699, 'val': 0.4339238703250885}
+Epoch 580/1000
+----------
+running_loss: {'train': 1.1432863473892212, 'val': 0.4337988495826721}
+Epoch 590/1000
+----------
+running_loss: {'train': 1.1430716514587402, 'val': 0.4336414337158203}
+Epoch 600/1000
+----------
+running_loss: {'train': 1.1428775191307068, 'val': 0.4335969090461731}
+Saved model checkpoint /tmp/model600.pt
+Found new best model with validation loss 0.4335969090461731 at epoch 600
+Epoch 610/1000
+----------
+running_loss: {'train': 1.1426953673362732, 'val': 0.4335438311100006}
+Epoch 620/1000
+----------
+running_loss: {'train': 1.1426169872283936, 'val': 0.43350356817245483}
+Epoch 630/1000
+----------
+running_loss: {'train': 1.1424200534820557, 'val': 0.4333316683769226}
+Epoch 640/1000
+----------
+running_loss: {'train': 1.1422120332717896, 'val': 0.43327921628952026}
+Epoch 650/1000
+----------
+running_loss: {'train': 1.1420643329620361, 'val': 0.4331686496734619}
+Epoch 660/1000
+----------
+running_loss: {'train': 1.1419193148612976, 'val': 0.4332374930381775}
+Epoch 670/1000
+----------
+running_loss: {'train': 1.141765058040619, 'val': 0.433098703622818}
+Epoch 680/1000
+----------
+running_loss: {'train': 1.1416295766830444, 'val': 0.4330782890319824}
+Epoch 690/1000
+----------
+running_loss: {'train': 1.1414925456047058, 'val': 0.4330406188964844}
+Epoch 700/1000
+----------
+running_loss: {'train': 1.1413583159446716, 'val': 0.4329759180545807}
+Saved model checkpoint /tmp/model700.pt
+Found new best model with validation loss 0.4329759180545807 at epoch 700
+Epoch 710/1000
+----------
+running_loss: {'train': 1.1412800550460815, 'val': 0.43280625343322754}
+Epoch 720/1000
+----------
+running_loss: {'train': 1.1411696672439575, 'val': 0.43284106254577637}
+Epoch 730/1000
+----------
+running_loss: {'train': 1.1410104632377625, 'val': 0.43283146619796753}
+Epoch 740/1000
+----------
+running_loss: {'train': 1.140896499156952, 'val': 0.4327613413333893}
+Epoch 750/1000
+----------
+running_loss: {'train': 1.1407848596572876, 'val': 0.43271201848983765}
+Epoch 760/1000
+----------
+running_loss: {'train': 1.1407139897346497, 'val': 0.4327508807182312}
+Epoch 770/1000
+----------
+running_loss: {'train': 1.140580952167511, 'val': 0.4326040744781494}
+Epoch 780/1000
+----------
+running_loss: {'train': 1.1404703855514526, 'val': 0.43260541558265686}
+Epoch 790/1000
+----------
+running_loss: {'train': 1.140383780002594, 'val': 0.43259650468826294}
+Epoch 800/1000
+----------
+running_loss: {'train': 1.140300452709198, 'val': 0.43253764510154724}
+Saved model checkpoint /tmp/model800.pt
+Found new best model with validation loss 0.43253764510154724 at epoch 800
+Epoch 810/1000
+----------
+running_loss: {'train': 1.1402033567428589, 'val': 0.4324920177459717}
+Epoch 820/1000
+----------
+running_loss: {'train': 1.1401129364967346, 'val': 0.43248414993286133}
+Epoch 830/1000
+----------
+running_loss: {'train': 1.1400367617607117, 'val': 0.43244534730911255}
+Epoch 840/1000
+----------
+running_loss: {'train': 1.1399263739585876, 'val': 0.4324980676174164}
+Epoch 850/1000
+----------
+running_loss: {'train': 1.139862835407257, 'val': 0.4323911666870117}
+Epoch 860/1000
+----------
+running_loss: {'train': 1.1398059129714966, 'val': 0.4323650002479553}
+Epoch 870/1000
+----------
+running_loss: {'train': 1.1397370100021362, 'val': 0.4323217272758484}
+Epoch 880/1000
+----------
+running_loss: {'train': 1.1396852135658264, 'val': 0.4322315752506256}
+Epoch 890/1000
+----------
+running_loss: {'train': 1.1395851373672485, 'val': 0.4321790635585785}
+Epoch 900/1000
+----------
+running_loss: {'train': 1.1395213603973389, 'val': 0.43224459886550903}
+Saved model checkpoint /tmp/model900.pt
+Found new best model with validation loss 0.43224459886550903 at epoch 900
+Epoch 910/1000
+----------
+running_loss: {'train': 1.1395322680473328, 'val': 0.4322843551635742}
+Epoch 920/1000
+----------
+running_loss: {'train': 1.139455497264862, 'val': 0.4321421682834625}
+Epoch 930/1000
+----------
+running_loss: {'train': 1.1393834948539734, 'val': 0.43216246366500854}
+Epoch 940/1000
+----------
+running_loss: {'train': 1.1393086314201355, 'val': 0.4321467876434326}
+Epoch 950/1000
+----------
+running_loss: {'train': 1.1392542719841003, 'val': 0.4322083592414856}
+Epoch 960/1000
+----------
+running_loss: {'train': 1.139187753200531, 'val': 0.4320870339870453}
+Epoch 970/1000
+----------
+running_loss: {'train': 1.1391255855560303, 'val': 0.43211084604263306}
+Epoch 980/1000
+----------
+running_loss: {'train': 1.1390708088874817, 'val': 0.43205443024635315}
+Epoch 990/1000
+----------
+running_loss: {'train': 1.1390145421028137, 'val': 0.4320818781852722}
+Epoch 1000/1000
+----------
+running_loss: {'train': 1.1389546990394592, 'val': 0.4320284426212311}
+Saved model checkpoint /tmp/model1000.pt
+Found new best model with validation loss 0.4320284426212311 at epoch 1000
+Training complete in 2m 38s
+Saved model to model/bce10_model_last_seed0_0_Manyblockssmallpiles.pt.
+Initializing IncrementalPlanner with base planner FD, guidance GNNSearchGuidance
+Running testing...
+	Testing problem 1 of 10
+[Trying to plan with 25 objects of 126 total, threshold is 0.9...]
+		Success, got plan of length 34 in 0.94239 seconds
+	Testing problem 2 of 10
+[Trying to plan with 21 objects of 136 total, threshold is 0.9...]
+		Success, got plan of length 28 in 0.77876 seconds
+	Testing problem 3 of 10
+[Trying to plan with 27 objects of 138 total, threshold is 0.9...]
+		Success, got plan of length 52 in 1.05526 seconds
+	Testing problem 4 of 10
+[Trying to plan with 36 objects of 152 total, threshold is 0.9...]
+		Success, got plan of length 64 in 1.70572 seconds
+	Testing problem 5 of 10
+[Trying to plan with 32 objects of 131 total, threshold is 0.9...]
+		Success, got plan of length 56 in 1.40563 seconds
+	Testing problem 6 of 10
+[Trying to plan with 30 objects of 136 total, threshold is 0.9...]
+		Success, got plan of length 52 in 1.25945 seconds
+	Testing problem 7 of 10
+[Trying to plan with 38 objects of 139 total, threshold is 0.9...]
+		Success, got plan of length 64 in 1.86356 seconds
+	Testing problem 8 of 10
+[Trying to plan with 19 objects of 112 total, threshold is 0.9...]
+		Success, got plan of length 26 in 0.75348 seconds
+	Testing problem 9 of 10
+[Trying to plan with 19 objects of 140 total, threshold is 0.9...]
+		Success, got plan of length 28 in 0.79009 seconds
+	Testing problem 10 of 10
+[Trying to plan with 28 objects of 135 total, threshold is 0.9...]
+		Success, got plan of length 52 in 1.25005 seconds
+wandb: Waiting for W&B process to finish, PID 279257
+wandb: Program ended successfully.
+wandb: - 0.04MB of 0.04MB uploaded (0.00MB deduped)wandb: \ 0.04MB of 0.04MB uploaded (0.00MB deduped)wandb: | 0.04MB of 0.04MB uploaded (0.00MB deduped)wandb: / 0.06MB of 0.06MB uploaded (0.00MB deduped)wandb: - 0.06MB of 0.06MB uploaded (0.00MB deduped)wandb: \ 0.06MB of 0.06MB uploaded (0.00MB deduped)wandb: | 0.06MB of 0.06MB uploaded (0.00MB deduped)wandb: / 0.06MB of 0.06MB uploaded (0.00MB deduped)wandb: - 0.06MB of 0.06MB uploaded (0.00MB deduped)wandb: \ 0.06MB of 0.06MB uploaded (0.00MB deduped)wandb:                                                                                
+wandb: Find user logs for this run at: /home/ales/tfg/ploi/wandb/run-20210618_000004-1hu7v9tn/logs/debug.log
+wandb: Find internal logs for this run at: /home/ales/tfg/ploi/wandb/run-20210618_000004-1hu7v9tn/logs/debug-internal.log
+wandb: Run summary:
+wandb:             dataset_collection_time 64.64991
+wandb:                            _runtime 237
+wandb:                          _timestamp 1623967441
+wandb:                               _step 146
+wandb:                      net_setup_time 0.00364
+wandb:                          train_loss 1.13895
+wandb:                            val_loss 0.43203
+wandb:   best_seen_running_validation_loss 0.43203
+wandb:                       training_time 158.26414
+wandb:                           test_time 11.95199
+wandb:                  accumulated_solved 10
+wandb:                             test_p0 0.94128
+wandb:                      p0_plan_length 34
+wandb:                             test_p1 0.77778
+wandb:                      p1_plan_length 28
+wandb:                             test_p2 1.05418
+wandb:                      p2_plan_length 52
+wandb:                             test_p3 1.70462
+wandb:                      p3_plan_length 64
+wandb:                             test_p4 1.40466
+wandb:                      p4_plan_length 56
+wandb:                             test_p5 1.25842
+wandb:                      p5_plan_length 52
+wandb:                             test_p6 1.86257
+wandb:                      p6_plan_length 64
+wandb:                             test_p7 0.75241
+wandb:                      p7_plan_length 26
+wandb:                             test_p8 0.78898
+wandb:                      p8_plan_length 28
+wandb:                             test_p9 1.24904
+wandb:                      p9_plan_length 52
+wandb: Run history:
+wandb:             dataset_collection_time ▁
+wandb:                            _runtime ▁▁▁▂▂▂▂▂▃▃▃▃▃▄▄▄▄▅▅▅▅▅▆▆▆▆▇▇▇▇▇█████████
+wandb:                          _timestamp ▁▁▁▂▂▂▂▂▃▃▃▃▃▄▄▄▄▅▅▅▅▅▆▆▆▆▇▇▇▇▇█████████
+wandb:                               _step ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb:                      net_setup_time ▁
+wandb:                          train_loss █▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                            val_loss █▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:   best_seen_running_validation_loss █▁▁▁▁▁▁▁▁▁▁
+wandb:                       training_time ▁
+wandb:                           test_time ▁▂▂▃▄▄▅▆▇▇██
+wandb:                  accumulated_solved ▁▂▂▃▄▅▅▆▇▇█
+wandb:                             test_p0 ▁
+wandb:                      p0_plan_length ▁
+wandb:                             test_p1 ▁
+wandb:                      p1_plan_length ▁
+wandb:                             test_p2 ▁
+wandb:                      p2_plan_length ▁
+wandb:                             test_p3 ▁
+wandb:                      p3_plan_length ▁
+wandb:                             test_p4 ▁
+wandb:                      p4_plan_length ▁
+wandb:                             test_p5 ▁
+wandb:                      p5_plan_length ▁
+wandb:                             test_p6 ▁
+wandb:                      p6_plan_length ▁
+wandb:                             test_p7 ▁
+wandb:                      p7_plan_length ▁
+wandb:                             test_p8 ▁
+wandb:                      p8_plan_length ▁
+wandb:                             test_p9 ▁
+wandb:                      p9_plan_length ▁
+wandb: 
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 1 other file(s)
+wandb: 
+wandb: Synced trim-firebrand-312: https://wandb.ai/alestarbucks/ploi-alejandro/runs/1hu7v9tn
+
+
+
+Finished run
+
+
+
+

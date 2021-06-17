@@ -3,13 +3,16 @@
 
 import pickle
 import os
+import wandb
+import random
+import time
 import numpy as np
 from torch.utils.data import DataLoader
 import torch.optim
 import torch.nn
 import torch
 import pddlgym
-from pddlgym.structs import Predicate
+from pddlgym.structs import Predicate, State
 from gnn.gnn import setup_graph_net
 from gnn.gnn_dataset import GraphDictDataset, graph_batch_collate
 from gnn.gnn_utils import train_model, get_single_model_prediction
@@ -23,9 +26,8 @@ class GNNSearchGuidance(BaseSearchGuidance):
     def __init__(self, training_planner, num_train_problems, num_epochs,
                  criterion_name, bce_pos_weight, load_from_file,
                  load_dataset_from_file, dataset_file_prefix,
-                 save_model_prefix, is_strips_domain):
+                 save_model_prefix, is_strips_domain, greedy_search=0):
         super().__init__()
-        print(training_planner)
         self._planner = training_planner
         self._num_train_problems = num_train_problems
         self._num_epochs = num_epochs
@@ -36,6 +38,8 @@ class GNNSearchGuidance(BaseSearchGuidance):
         self._dataset_file_prefix = dataset_file_prefix
         self._save_model_prefix = save_model_prefix
         self._is_strips_domain = is_strips_domain
+        self.greedy_search = greedy_search
+
         # Initialize other instance variables.
         self._model = None
         self._unary_types = None
@@ -53,15 +57,24 @@ class GNNSearchGuidance(BaseSearchGuidance):
         print("Training search guidance {} in domain {}...".format(
             self.__class__.__name__, train_env_name))
         # Collect raw training data. Inputs are States, outputs are objects.
-        training_data = self._collect_training_data(train_env_name)
-        with open("training_data.txt", "w+") as f:
-            f.write(str(training_data))
+        initial_time = time.time()
+        # training_data = self._collect_training_data(train_env_name)
+        if self.greedy_search == 1:
+            training_data = self._greedy_minimal_set_search(train_env_name)
+        else:
+            training_data = self._collect_training_data(train_env_name)
+
+        # with open("training_data.txt", "w+") as f:
+        #     f.write(str(training_data))
+
         # Convert training data to graphs
         graphs_input, graphs_target = self._create_graph_dataset(training_data)
-        with open("graphs_input.txt", "w+") as f:
-            f.write(str(graphs_input))
-        with open("graphs_target.txt", "w+") as f:
-            f.write(str(graphs_target))
+
+        # with open("graphs_input.txt", "w+") as f:
+        #     f.write(str(graphs_input))
+        # with open("graphs_target.txt", "w+") as f:
+        #     f.write(str(graphs_target))
+
         # Use 10% for validation
         num_validation = max(1, int(len(graphs_input)*0.1))
         train_graphs_input = graphs_input[num_validation:]
@@ -79,8 +92,15 @@ class GNNSearchGuidance(BaseSearchGuidance):
                                     shuffle=False, num_workers=3,
                                     collate_fn=graph_batch_collate)
         dataloaders = {"train": dataloader, "val": dataloader_val}
+        wandb.log({"dataset_collection_time": (time.time() - initial_time)})
         # Set up model, loss, optimizer
+
+        initial_time = time.time()
         self._model = setup_graph_net(graph_dataset, use_gpu=False, num_steps=3)
+        wandb.log({"net_setup_time": (time.time() - initial_time)})
+
+        # print("THE MODEL")
+        # print(self._model)
 
         if not self._load_from_file or not os.path.exists(model_outfile):
             optimizer = torch.optim.Adam(self._model.parameters(), lr=1e-3)
@@ -91,9 +111,12 @@ class GNNSearchGuidance(BaseSearchGuidance):
                 raise Exception("Unrecognized criterion_name {}".format(
                     self._criterion_name))
             # Train model
+            initial_time = time.time()
             model_dict = train_model(self._model, dataloaders,
                                      criterion=criterion, optimizer=optimizer,
                                      use_gpu=False, num_epochs=self._num_epochs)
+            wandb.log({"training_time": (time.time() - initial_time)})
+            # print("Weights:\n{}".format(model_dict))
             torch.save(model_dict, model_outfile)
             self._model.load_state_dict(model_dict)
             print("Saved model to {}.".format(model_outfile))
@@ -116,6 +139,69 @@ class GNNSearchGuidance(BaseSearchGuidance):
             self._last_object_scores = object_scores
             self._last_processed_state = state
         return self._last_object_scores[obj]
+
+    def _greedy_minimal_set_search(self, train_env_name):
+        """Returns X, Y where X are States and Y are sets of objects in the found plan
+        """
+        outfile = self._dataset_file_prefix + "_{}.pkl".format(train_env_name)
+        if not self._load_dataset_from_file or not os.path.exists(outfile):
+            inputs = []
+            outputs = []
+            env = pddlgym.make("PDDLEnv{}-v0".format(train_env_name))
+            assert env.operators_as_actions
+            for idx in range(min(self._num_train_problems, len(env.problems))):       
+                minimal = False     
+
+                print("Collecting training data problem {}".format(idx),
+                        flush=True)
+                env.fix_problem_index(idx)
+                state, _ = env.reset()
+
+                # Try to plan with the whole set of objects to test feasibility
+                try:
+                    plan = self._planner(env.domain, state, timeout=60)
+                    objects_in_plan = {o for act in plan for o in act.variables}
+                except (PlanningTimeout, PlanningFailure):
+                    print("Warning: planning failed, skipping: {}".format(
+                        env.problems[idx].problem_fname))
+                    continue
+                
+                inputs.append(state)
+                # print(list(state.objects))
+
+                removed = []
+                to_try = [o for o in list(state.objects) if o not in state.goal.literals]
+                while not minimal:     
+                    if len(to_try) == 0:
+                        minimal = True
+                        break             
+                    backup_state = state
+                    
+                    object_to_remove = random.choice(to_try)
+                    removed.append(object_to_remove)
+                    new_literals = {l for l in state.literals if object_to_remove not in l.variables}
+                    new_objects = {o for o in state.objects if object_to_remove not in o}
+
+                    state = State(literals=frozenset(new_literals), objects=frozenset(new_objects), goal=state.goal)
+                    to_try.remove(object_to_remove)
+                    try:
+                        # print("Trying to remove {} from the set".format(object_to_remove))
+                        plan = self._planner(env.domain, state, timeout=30)
+                        objects_in_plan = {o for act in plan for o in act.variables}
+                    except (PlanningTimeout, PlanningFailure):
+                        # print("Failed. Restoring previous set")
+                        state = backup_state
+                # print(list(state.objects))
+                outputs.append(objects_in_plan)
+            training_data = (inputs, outputs)
+
+            with open(outfile, "wb") as f:
+                pickle.dump(training_data, f)
+
+        with open(outfile, "rb") as f:
+            training_data = pickle.load(f)
+
+        return training_data
 
     def _collect_training_data(self, train_env_name):
         """Returns X, Y where X are States and Y are sets of objects in the found plan
@@ -179,6 +265,10 @@ class GNNSearchGuidance(BaseSearchGuidance):
                 continue
             lit_index = self._node_feature_to_index[lit.predicate]
             assert len(lit.variables) == 1
+            # print(objects_to_node)
+            # print(lit)
+            # print(lit.variables[0])
+            # print("------")
             obj_index = objects_to_node[lit.variables[0]]
             input_node_features[obj_index, lit_index] = 1
 
@@ -186,6 +276,12 @@ class GNNSearchGuidance(BaseSearchGuidance):
         for lit in state.goal.literals:
             if lit.predicate.arity != 1:
                 continue
+            # print("AAAAAAAAAAAAAAAAAAAAA")
+            # print(lit)
+            # print(self._node_feature_to_index)
+            # print(lit.predicate)
+            # print(G(lit.predicate))
+            # print("AAAAAAAAAAAAAAAAAAAAA")
             lit_index = self._node_feature_to_index[G(lit.predicate)]
             assert len(lit.variables) == 1
             obj_index = objects_to_node[lit.variables[0]]
@@ -291,6 +387,7 @@ class GNNSearchGuidance(BaseSearchGuidance):
             types = {o.var_type for o in state.objects}
             # Only add new types
             self._unary_types.update(types)
+            # print("State goal literals:\n{}".format(state.goal.literals))
             for lit in set(state.literals) | set(state.goal.literals):
                 arity = lit.predicate.arity
                 assert arity == len(lit.variables)
@@ -312,15 +409,18 @@ class GNNSearchGuidance(BaseSearchGuidance):
         # Initialize node features
         self._node_feature_to_index = {}
         index = 0
+        # print("UNary types:\n{}".format(self._unary_types))
         for unary_type in self._unary_types:
             self._node_feature_to_index[unary_type] = index
             index += 1
+        # print("UNary predicates:\n{}".format(self._unary_predicates))
         for unary_predicate in self._unary_predicates:
             self._node_feature_to_index[unary_predicate] = index
             index += 1
         for unary_predicate in self._unary_predicates:
             self._node_feature_to_index[G(unary_predicate)] = index
             index += 1
+        # print("Unary features with goals:\n{}".format(self._node_feature_to_index))
         # Initialize edge features
         self._edge_feature_to_index = {}
         index = 0
