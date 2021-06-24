@@ -96,7 +96,6 @@ class IncrementalPlanner(Planner):
                 if len(cur_objects) == len(state.objects):
                     # We already tried with all objects, give up.
                     break
-                continue
-            
+                continue 
             return plan
         raise PlanningFailure("Plan not found! Reached max_iterations.")

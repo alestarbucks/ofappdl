@@ -567,13 +567,9 @@ class PDDLDomainParser(PDDLParser, PDDLDomain):
                 if ' - ' in arg:
                     assert arg_types is not None, "Mixing of typed and untyped args not allowed"
                     assert self.uses_typing
-                    # print(arg)
-                    # print(pred)
-                    # print(self.types)
                     arg_type = self.types[arg.strip().split(" - ", 1)[1].strip()]
                     arg_types.append(arg_type)
                 else:
-                    # print(pred)
                     start = False
                     has_type = False
                     for arg2 in pred[1:]:
@@ -589,7 +585,6 @@ class PDDLDomainParser(PDDLParser, PDDLDomain):
                     if not has_type:
                         assert not self.uses_typing
                         arg_types.append(self.types["default"])
-                    # print(pred)
             self.predicates[pred_name] = Predicate(
                 pred_name, len(pred[1:]), arg_types)
         # Handle equality
@@ -698,7 +693,6 @@ class PDDLProblemParser(PDDLParser):
         if objects == "":
             self.objects = []
         else:
-            # print("----------------------\n" + objects + "-------------------")
             self.objects = self.parse_objects(objects, self.types, 
                 uses_typing=self.uses_typing)
         # Add constants to objects
@@ -761,9 +755,6 @@ class PDDLProblemParser(PDDLParser):
             goal=goal,
             fast_downward_order=fast_downward_order,
         )
-        # with open("a.txt", "w+") as f: 
-        #     f.write(problem_str)
-        #     print(problem_str)
 
         try:
             file_or_filepath.write(problem_str)

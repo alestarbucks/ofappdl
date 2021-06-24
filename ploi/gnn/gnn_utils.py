@@ -93,7 +93,7 @@ def train_model(model, dataloaders, criterion, optimizer, use_gpu, print_iter=10
                 running_loss[phase] += loss.item()
         
         if epoch % print_iter == 0:
-            wandb.log({'train_loss': running_loss['train'], 'val_loss': running_loss['val']})
+            # wandb.log({'train_loss': running_loss['train'], 'val_loss': running_loss['val']})
             print("running_loss:", running_loss, flush=True)
 
         if epoch % save_iter == 0:
@@ -103,7 +103,7 @@ def train_model(model, dataloaders, criterion, optimizer, use_gpu, print_iter=10
 
             if running_loss['val'] < best_seen_running_validation_loss:
                 best_seen_running_validation_loss = running_loss['val']
-                wandb.log({'best_seen_running_validation_loss': best_seen_running_validation_loss})
+                # wandb.log({'best_seen_running_validation_loss': best_seen_running_validation_loss})
                 best_seen_model_weights = model.state_dict()
                 print("Found new best model with validation loss {} at epoch {}".format(
                     best_seen_running_validation_loss, epoch), flush=True)

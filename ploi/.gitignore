@@ -1,7 +1,7 @@
 __pycache__
 *pyc
 .DS_STORE
-#FD/
+FD/
 pylint_recursive.py
-model/
+#model/
 wandb/

@@ -15,7 +15,7 @@ def _test_planner(planner, domain_name, num_problems, timeout):
     env = pddlgym.make("PDDLEnv{}-v0".format(domain_name))
     num_problems = min(num_problems, len(env.problems))
     solved = 0
-    wandb.log({"test_time": 0, "accumulated_solved": solved})
+    # wandb.log({"test_time": 0, "accumulated_solved": solved})
     initial = time.time()
     for problem_idx in range(num_problems):
         print("\tTesting problem {} of {}".format(problem_idx+1, num_problems),
@@ -36,9 +36,9 @@ def _test_planner(planner, domain_name, num_problems, timeout):
             print("\t\tPlanning returned an invalid plan")
             continue
         solved += 1
-        wandb.log({"test_p{}".format(problem_idx): time.time()-start})
-        wandb.log({"test_time": time.time() - initial, "accumulated_solved": solved})
-        wandb.log({"p{}_plan_length".format(problem_idx): len(plan)})
+        # wandb.log({"test_p{}".format(problem_idx): time.time()-start})
+        # wandb.log({"test_time": time.time() - initial, "accumulated_solved": solved})
+        # wandb.log({"p{}_plan_length".format(problem_idx): len(plan)})
         print("\t\tSuccess, got plan of length {} in {:.5f} seconds".format(
             len(plan), time.time()-start), flush=True)
 
@@ -117,22 +117,22 @@ def _run(domain_name, train_planner_name, test_planner_name,
 
     for seed in range(num_seeds):
 
-        config = {
-            'domain': domain_name,
-            'train planner': train_planner_name,
-            'test planner': test_planner_name,
-            'guider': guider_name,
-            'incremental': do_incremental_planning == 1,
-            'greedy_incr': greedy_search == 1,
-            'seed': seed,
-            'train_problems': num_train_problems,
-            'test_problems': num_test_problems
-        }
+        # config = {
+        #     'domain': domain_name,
+        #     'train planner': train_planner_name,
+        #     'test planner': test_planner_name,
+        #     'guider': guider_name,
+        #     'incremental': do_incremental_planning == 1,
+        #     'greedy_incr': greedy_search == 1,
+        #     'seed': seed,
+        #     'train_problems': num_train_problems,
+        #     'test_problems': num_test_problems
+        # }
 
-        run = wandb.init(project='ploi-alejandro', entity='alestarbucks', config=config, reinit=True, tags=[
-            # "online"
-            "easier_multi"
-        ])
+        # run = wandb.init(project='ploi-alejandro', entity='alestarbucks', config=config, reinit=True, tags=[
+        #     # "online"
+        #     "easier_multi"
+        # ])
 
         print("Starting seed {}".format(seed), flush=True)
 
@@ -152,8 +152,8 @@ def _run(domain_name, train_planner_name, test_planner_name,
         initial_time = time.time()
         _test_planner(planner_to_test, domain_name+"Test",
                       num_problems=num_test_problems, timeout=timeout)
-        wandb.log({"test_time": (time.time() - initial_time)})
-        run.finish()
+        # wandb.log({"test_time": (time.time() - initial_time)})
+        # run.finish()
         
     print("\n\nFinished run\n\n\n\n")
 

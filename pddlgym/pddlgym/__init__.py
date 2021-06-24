@@ -138,7 +138,6 @@ for env_name, kwargs in [
         ("explodingblocks", {'render' : exploding_blocks_render}),
         ("newspapers", {'operators_as_actions' : True,
                         'dynamic_action_space' : True}),
-        ("robot", {'operators_as_actions': True, 'dynamic_action_space': True}),
         ("nurikabe", {'operators_as_actions': True, 'dynamic_action_space': True}),
         ("manydepot", {'operators_as_actions' : True,
                                   'dynamic_action_space' : True}),
@@ -157,7 +156,6 @@ for env_name, kwargs in [
     }
     kwargs.update(other_args)
     for is_test in [False, True]:
-        # print(env_name)
         register_pddl_env(env_name, is_test, kwargs)
 
 
