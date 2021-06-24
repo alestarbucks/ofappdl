@@ -6,7 +6,7 @@ import time
 import argparse
 import pddlgym
 from planning import PlanningTimeout, PlanningFailure, FD, \
-    validate_strips_plan, IncrementalPlanner
+    validate_strips_plan, IncrementalPlanner, OnlinePlanner
 from guidance import NoSearchGuidance, GNNSearchGuidance
     
 
@@ -48,6 +48,8 @@ def _create_planner(planner_name):
         return FD(alias_flag="--alias lama-first")
     if planner_name == "fd-opt-lmcut":
         return FD(alias_flag="--alias seq-opt-lmcut")
+    if planner_name == "solver-planning-domains":
+        return OnlinePlanner()
     raise Exception("Unrecognized planner name '{}'.".format(planner_name))
 
 
@@ -106,7 +108,8 @@ def _run(domain_name, train_planner_name, test_planner_name,
                          "Barman": "Manybarman",
                          "Parking": "Manyparking",
                          "Spanner": "Manyspanner",
-                         "Multitasking": "Manymultitasking"}
+                         "Multitasking": "Manymultitasking",
+                         "Multitaskingeasy": "Manymultitaskingeasy"}
     assert domain_name in pddlgym_env_names
     # change domain name to match the one in pddlgym
     domain_name = pddlgym_env_names[domain_name]
@@ -126,16 +129,10 @@ def _run(domain_name, train_planner_name, test_planner_name,
             'test_problems': num_test_problems
         }
 
-        run = wandb.init(project='ploi-alejandro', entity='alestarbucks', config=config, reinit=True)
-
-        if seed == 0: seed_set = wandb.run.name
-
-        tags = [
-            # "dummy",
-            seed_set
-        ]
-
-        wandb.tags = tags
+        run = wandb.init(project='ploi-alejandro', entity='alestarbucks', config=config, reinit=True, tags=[
+            # "online"
+            "easier_multi"
+        ])
 
         print("Starting seed {}".format(seed), flush=True)
 

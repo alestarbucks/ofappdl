@@ -1,6 +1,6 @@
 """Search guidance using a GNN.
 """
-
+import requests
 import pickle
 import os
 import wandb
@@ -206,6 +206,7 @@ class GNNSearchGuidance(BaseSearchGuidance):
     def _collect_training_data(self, train_env_name):
         """Returns X, Y where X are States and Y are sets of objects in the found plan
         """
+        
         outfile = self._dataset_file_prefix + "_{}.pkl".format(train_env_name)
         if not self._load_dataset_from_file or not os.path.exists(outfile):
             inputs = []

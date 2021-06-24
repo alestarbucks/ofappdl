@@ -3,11 +3,11 @@
 	(:objects
 		Dish0 Dish1  - dish
 		Ingredient0 Ingredient1 Ingredient2 Ingredient3 Ingredient4 Ingredient5  - ingredient
-		Room0 Room1 Room2 Room3  - room
-		CookingTool0 CookingTool1  - cookingtool
+		Room0 Room1  - room
+		CookingTool0 CookingTool1 CookingTool2  - cookingtool
 		CleaningTool0 CleaningTool1  - cleaningtool
-		GardeningTool0 GardeningTool1 GardeningTool2  - gardeningtool
-		Plant0 Plant1 Plant2 Plant3 Plant4  - plant
+		GardeningTool0 GardeningTool1  - gardeningtool
+		Plant0 Plant1 Plant2 Plant3  - plant
 )
 	(:init
 		(ingr1 Ingredient2 Dish0)
@@ -19,37 +19,33 @@
 		(ingr3 Ingredient3 Dish1)
 		(needed CookingTool0 Dish1)
 		(at Ingredient0 Room0)
-		(at Ingredient1 Room3)
+		(at Ingredient1 Room1)
 		(at Ingredient2 Room0)
-		(at Ingredient3 Room2)
+		(at Ingredient3 Room1)
 		(at Ingredient4 Room1)
-		(at Ingredient5 Room2)
-		(connected Room0 Room3)
+		(at Ingredient5 Room0)
+		(connected Room0 Room1)
 		(position Room0)
 		(connected Room1 Room0)
-		(connected Room2 Room1)
-		(connected Room3 Room2)
-		(at CookingTool0 Room1)
-		(at CookingTool1 Room2)
-		(at CleaningTool0 Room3)
-		(at CleaningTool1 Room3)
-		(at GardeningTool0 Room3)
-		(at GardeningTool1 Room3)
-		(at GardeningTool2 Room2)
-		(at Plant0 Room1)
-		(at Plant1 Room2)
-		(at Plant2 Room0)
-		(at Plant3 Room3)
-		(at Plant4 Room2)
+		(at CookingTool0 Room0)
+		(at CookingTool1 Room0)
+		(at CookingTool2 Room1)
+		(at CleaningTool0 Room0)
+		(at CleaningTool1 Room1)
+		(at GardeningTool0 Room0)
+		(at GardeningTool1 Room1)
+		(at Plant0 Room0)
+		(at Plant1 Room1)
+		(at Plant2 Room1)
+		(at Plant3 Room1)
 		(handfree)
 	)
 	(:goal (and
+		(cooked Dish1)
 		(cooked Dish0)
 		(washed CookingTool0)
 		(washed CookingTool1)
-		(clean Room1)
-		(clean Room0)
-		(clean Room3)
-		(clean Room2)
+		(washed CookingTool2)
+		(gardened Plant3)
 	))
 )
